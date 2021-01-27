@@ -1,0 +1,16 @@
+version: '3'
+volumes:
+  m2:
+    external:
+      false
+services:
+  build-code:
+    image:  maven:3.3-jdk-8
+    volumes:
+    - .:/usr/src
+    command: bash -c "cd /usr/src && mvn clean package -U"
+  json4img-rest:
+    build:
+      context: json4img-rest
+    image: openjdk:8
+    command: --server
