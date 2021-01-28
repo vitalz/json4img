@@ -1,0 +1,4 @@
+jetty:
+  context: /json4img
+  connectors:
+    - port: 8080

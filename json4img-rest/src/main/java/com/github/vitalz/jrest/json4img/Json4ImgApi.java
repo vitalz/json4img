@@ -5,12 +5,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+@Path("/")
 public class Json4ImgApi {
 
-    @Path("/")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String get() {
-        return "{\"message\":\"it works!!\"}";
+        return "{\"message\":\"it works!\"}";
     }
+
+
 }
