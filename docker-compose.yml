@@ -7,8 +7,9 @@ services:
   build-code:
     image:  maven:3.3-jdk-8
     volumes:
+    - m2:/root/.m2
     - .:/usr/src
-    command: bash -c "cd /usr/src && mvn clean package -U"
+    command: bash -c "cd /usr/src && mvn clean package"
   json4img-rest:
     build:
       context: json4img-rest
