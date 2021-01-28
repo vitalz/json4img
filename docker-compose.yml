@@ -15,3 +15,5 @@ services:
       context: json4img-rest
     image: openjdk:8
     command: --server
+    ports:
+    - 8080:8080
