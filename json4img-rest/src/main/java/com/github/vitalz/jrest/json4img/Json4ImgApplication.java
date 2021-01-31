@@ -9,10 +9,8 @@ public class Json4ImgApplication {
 
         Bootique
                 .app(args)
-                .module(binder -> {
-                    JerseyModule.extend(binder).addResource(Json4ImgApi.class);
-                })
                 .autoLoadModules()
+                .module(binder -> JerseyModule.extend(binder).addResource(Json4ImgApi.class))
                 .exec()
                 .exit();
     }

@@ -16,4 +16,4 @@ services:
     image: openjdk:8
     command: --server --config=classpath:com/github/vitalz/jrest/json4img/server.yml
     ports:
-    - 8080:8080
+    - "8080:8080"
