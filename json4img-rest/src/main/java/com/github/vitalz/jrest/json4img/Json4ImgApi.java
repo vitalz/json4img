@@ -1,10 +1,9 @@
 package com.github.vitalz.jrest.json4img;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.vitalz.jrest.json4img.model.Image;
-import com.github.vitalz.jrest.json4img.model.Pixel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.ws.rs.Consumes;
@@ -15,15 +14,18 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-@Path("/j4i")
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.github.vitalz.jrest.json4img.model.Image;
+import com.github.vitalz.jrest.json4img.model.Pixel;
+
+
+@Path("/api")
 public final class Json4ImgApi {
     private static final Logger log = LoggerFactory.getLogger(Json4ImgApi.class);
 
@@ -34,7 +36,7 @@ public final class Json4ImgApi {
     }
 
     @POST
-    @Path("j2i")
+    @Path("image")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public Response jsonToImage(String json) {
@@ -42,28 +44,46 @@ public final class Json4ImgApi {
     }
 
     @GET
-    @Path("i2j")
+    @Path("json")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response imageToJson (@QueryParam("path") String path) throws IOException {
-        log.debug("Requested for image file path: {}", path);
+    public Response imageToJson (@QueryParam("path") String path) {
+        log.debug("Requested for an image file on a path: {}", path);
 
-        BufferedImage bufferedImage = ImageIO.read(new FileInputStream(path)); // wrap into FileInputSteam to avoid OpenJDK issues
-        final int width = bufferedImage.getWidth();
-        final int height = bufferedImage.getHeight();
-
-        List<Pixel> pixels = new ArrayList(width * height);
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                pixels.add(new Pixel(x, y, String.format("#%S", Integer.toHexString(bufferedImage.getRGB(x, y)))));
-            }
+        File file = new File(path);
+        if (!file.exists() || file.isDirectory()) {
+            log.info("No file on a path requested: {}", path);
+            return Response.serverError()
+                    .status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Requested path is not a file.")
+                    .build();
         }
 
-        return Response.ok(
-                new ObjectMapper().writeValueAsString(
-                        new Image(width, height, pixels)
-                )
-        ).build();
+        try {
+
+            BufferedImage bufferedImage = ImageIO.read(new FileInputStream(path)); // wrap into FileInputSteam to avoid OpenJDK issues
+            final int width = bufferedImage.getWidth();
+            final int height = bufferedImage.getHeight();
+
+            List<Pixel> pixels = new ArrayList(width * height);
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    pixels.add(new Pixel(x, y, String.format("#%S", Integer.toHexString(bufferedImage.getRGB(x, y)))));
+                }
+            }
+
+            return Response.ok(
+                    new ObjectMapper().writeValueAsString(
+                            new Image(width, height, pixels)
+                    )
+            ).build();
+
+        } catch (Throwable t) {
+            log.error("Server exception has occurred.\n", t);
+            return Response.serverError()
+                    .status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), t.getLocalizedMessage())
+                    .build();
+        }
+
     }
 
 }
