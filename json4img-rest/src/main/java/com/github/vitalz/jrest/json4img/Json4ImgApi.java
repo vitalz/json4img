@@ -17,6 +17,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.awt.image.BufferedImage;
 
+import ch.qos.logback.core.util.FileUtil;
+import com.github.vitalz.jrest.json4img.model.JsonToImage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,12 +45,14 @@ public final class Json4ImgApi {
     public Response jsonToImage(String json) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            Image model = objectMapper.readValue(json, Image.class);
+            JsonToImage json2Img = objectMapper.readValue(json, JsonToImage.class);
+            String toRelativePath = json2Img.getToRelativePath();
+            Image model = json2Img.getImage();
             BufferedImage bufferedImage = new BufferedImage(model.getWidth(), model.getHeight(), BufferedImage.TYPE_INT_RGB);  // TYPE_INT_RGB for OpenJDK
-            model.getPixels().forEach(p -> {
-                bufferedImage.setRGB(p.getX(), p.getY(), Color.decode(p.getColor()).getRGB());
-            });
-            ImageIO.write(bufferedImage, "png", new File("/usr/images/out.png"));
+            model.getPixels().forEach(p -> bufferedImage.setRGB(p.getX(), p.getY(), Color.decode(p.getColor()).getRGB()));
+            File file = new File("/usr/images/" + toRelativePath);
+            FileUtil.createMissingParentDirectories(file);
+            ImageIO.write(bufferedImage, "png", file);
             return Response.ok().build();
         } catch (Throwable t) {
             log.error("Server error has occurred.", t);

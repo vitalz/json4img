@@ -31,6 +31,11 @@
             <groupId>io.bootique.logback</groupId>
             <artifactId>bootique-logback</artifactId>
         </dependency>
+        <!-- 3rd party deps -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
