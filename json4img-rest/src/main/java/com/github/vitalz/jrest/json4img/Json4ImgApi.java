@@ -1,7 +1,9 @@
 package com.github.vitalz.jrest.json4img;
 
+import java.awt.Graphics;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +42,22 @@ public final class Json4ImgApi {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public Response jsonToImage(String json) {
-        return Response.ok().build();
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Image model = objectMapper.readValue(json, Image.class);
+            BufferedImage bufferedImage = new BufferedImage(model.getWidth(), model.getHeight(), BufferedImage.TYPE_INT_RGB);  // TYPE_INT_RGB for OpenJDK
+            model.getPixels().forEach(p -> {
+                bufferedImage.setRGB(p.getX(), p.getY(), Integer.parseInt(p.getColor().replace("#", "").toLowerCase(), 16));
+            });
+            ImageIO.write(bufferedImage, "png", new File("/usr/images/out.png"));
+            return Response.ok().build();
+        } catch (Throwable t) {
+            log.error("Server error has occurred.", t);
+            return Response.serverError()
+                    .status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), t.getLocalizedMessage())
+                    .build();
+        }
+
     }
 
     @GET

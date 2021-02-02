@@ -7,6 +7,9 @@ public final class Image {
     private int height;
     private List<Pixel> pixels;
 
+    // default crot for json serialization
+    public Image() {}
+
     public Image(int width, int height, List<Pixel> pixels) {
         this.width = width;
         this.height = height;

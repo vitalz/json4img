@@ -5,6 +5,9 @@ public final class Pixel {
     private int y;
     private String color;
 
+    // default crot for json serialization
+    public Pixel() {}
+
     public Pixel(int x, int y, String color) {
         this.x = x;
         this.y = y;
