@@ -1,4 +1,4 @@
 jetty:
-  context: /json4img
+  context: /json4img/rest
   connectors:
     - port: 8080
