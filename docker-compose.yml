@@ -9,7 +9,8 @@ services:
     volumes:
     - m2:/root/.m2
     - .:/usr/src
-    command: bash -c "cd /usr/src && mvn clean package"
+    working_dir: "/usr/src"
+    command: "mvn clean package"
   json4img-rest:
     build:
       context: json4img-rest
