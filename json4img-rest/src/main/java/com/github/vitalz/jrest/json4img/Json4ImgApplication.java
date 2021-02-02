@@ -9,7 +9,7 @@ import io.bootique.meta.application.OptionMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Json4ImgApplication implements Module {
+public final class Json4ImgApplication implements Module {
     private final static Logger log = LoggerFactory.getLogger(Json4ImgApplication.class);
 
     public static void main(String[] args) {

@@ -1,9 +1,9 @@
 package com.github.vitalz.jrest.json4img.model;
 
-public class Pixel {
-    private final int x;
-    private final int y;
-    private final String color;
+public final class Pixel {
+    private int x;
+    private int y;
+    private String color;
 
     public Pixel(int x, int y, String color) {
         this.x = x;
@@ -22,4 +22,18 @@ public class Pixel {
     public String getColor() {
         return color;
     }
+
+    // setters for json serialization
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+    // end setters
 }

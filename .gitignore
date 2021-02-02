@@ -1,6 +1,9 @@
 # macOS
 .DS_Store
 
+# Docker
+.env
+
 # Compiled class file
 *.class
 

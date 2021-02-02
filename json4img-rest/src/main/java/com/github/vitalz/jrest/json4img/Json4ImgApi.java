@@ -3,6 +3,8 @@ package com.github.vitalz.jrest.json4img;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.vitalz.jrest.json4img.model.Image;
 import com.github.vitalz.jrest.json4img.model.Pixel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import javax.ws.rs.Consumes;
@@ -13,14 +15,17 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Path("/j4i")
-public class Json4ImgApi {
+public final class Json4ImgApi {
+    private static final Logger log = LoggerFactory.getLogger(Json4ImgApi.class);
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -41,15 +46,16 @@ public class Json4ImgApi {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response imageToJson (@QueryParam("path") String path) throws IOException {
+        log.debug("Requested for image file path: {}", path);
 
-        //BufferedImage bufferedImage = ImageIO.read(new File(path));
-        final int width = 1980; //bufferedImage.getWidth();
-        final int height = 1080; //bufferedImage.getHeight();
+        BufferedImage bufferedImage = ImageIO.read(new FileInputStream(path)); // wrap into FileInputSteam to avoid OpenJDK issues
+        final int width = bufferedImage.getWidth();
+        final int height = bufferedImage.getHeight();
 
         List<Pixel> pixels = new ArrayList(width * height);
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                pixels.add(new Pixel(x, y, "#FFFFFF"));
+                pixels.add(new Pixel(x, y, String.format("#%S", Integer.toHexString(bufferedImage.getRGB(x, y)))));
             }
         }
 

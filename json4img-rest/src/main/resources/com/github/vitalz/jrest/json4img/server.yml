@@ -2,3 +2,9 @@ jetty:
   context: /json4img/rest
   connectors:
     - port: 8080
+
+#  Logging
+log:
+  level: debug
+  appenders:
+    - type: console

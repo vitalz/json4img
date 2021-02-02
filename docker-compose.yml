@@ -17,3 +17,5 @@ services:
     command: --server --local
     ports:
     - "8080:8080"
+    volumes:
+    - ${IMAGES_DIR}:/usr/images
