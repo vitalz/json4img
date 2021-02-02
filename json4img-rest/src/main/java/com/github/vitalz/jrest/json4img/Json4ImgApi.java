@@ -1,9 +1,8 @@
 package com.github.vitalz.jrest.json4img;
 
-import java.awt.Graphics;
+import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +46,7 @@ public final class Json4ImgApi {
             Image model = objectMapper.readValue(json, Image.class);
             BufferedImage bufferedImage = new BufferedImage(model.getWidth(), model.getHeight(), BufferedImage.TYPE_INT_RGB);  // TYPE_INT_RGB for OpenJDK
             model.getPixels().forEach(p -> {
-                bufferedImage.setRGB(p.getX(), p.getY(), Integer.parseInt(p.getColor().replace("#", "").toLowerCase(), 16));
+                bufferedImage.setRGB(p.getX(), p.getY(), Color.decode(p.getColor()).getRGB());
             });
             ImageIO.write(bufferedImage, "png", new File("/usr/images/out.png"));
             return Response.ok().build();
@@ -84,7 +83,7 @@ public final class Json4ImgApi {
             List<Pixel> pixels = new ArrayList(width * height);
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
-                    pixels.add(new Pixel(x, y, String.format("#%S", Integer.toHexString(bufferedImage.getRGB(x, y)))));
+                    pixels.add(new Pixel(x, y, String.format("#%06X", (0xFFFFFF & bufferedImage.getRGB(x, y)))));
                 }
             }
 
