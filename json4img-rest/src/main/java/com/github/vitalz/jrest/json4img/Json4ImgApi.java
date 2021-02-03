@@ -19,6 +19,8 @@ import java.awt.image.BufferedImage;
 
 import ch.qos.logback.core.util.FileUtil;
 import com.github.vitalz.jrest.json4img.model.JsonToImage;
+import com.github.vitalz.jrest.json4img.service.file.FileStorage;
+import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +33,9 @@ import com.github.vitalz.jrest.json4img.model.Pixel;
 @Path("/api")
 public final class Json4ImgApi {
     private static final Logger log = LoggerFactory.getLogger(Json4ImgApi.class);
+
+    @Inject
+    private FileStorage fileStorage;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -50,7 +55,7 @@ public final class Json4ImgApi {
             Image model = json2Img.getImage();
             BufferedImage bufferedImage = new BufferedImage(model.getWidth(), model.getHeight(), BufferedImage.TYPE_INT_RGB);  // TYPE_INT_RGB for OpenJDK
             model.getPixels().forEach(p -> bufferedImage.setRGB(p.getX(), p.getY(), Color.decode(p.getColor()).getRGB()));
-            File file = new File("/usr/images/" + toRelativePath);
+            File file = new File(fileStorage.getSharedDir().get(), toRelativePath);
             FileUtil.createMissingParentDirectories(file);
             ImageIO.write(bufferedImage, "png", file);
             return Response.ok().build();

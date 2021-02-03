@@ -3,6 +3,9 @@ jetty:
   connectors:
     - port: 8080
 
+fs:
+  sharedDir: "/usr/images"
+
 #  Logging
 log:
   level: debug
