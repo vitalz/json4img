@@ -1,5 +1,6 @@
 # demo
 out/
+output/
 
 # macOS
 .DS_Store
