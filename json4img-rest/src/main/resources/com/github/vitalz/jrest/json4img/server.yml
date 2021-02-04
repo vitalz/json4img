@@ -4,7 +4,8 @@ jetty:
     - port: 8080
 
 fs:
-  sharedDir: "/usr/images"
+  sharedDir: "/opt/json4img/images"
+  outputDir: "/opt/json4img/output"
 
 #  Logging
 log:

@@ -5,4 +5,5 @@ import java.util.function.Supplier;
 
 public interface FileStorage {
     Supplier<File> getSharedDir();
+    Supplier<File> getOutputDir();
 }

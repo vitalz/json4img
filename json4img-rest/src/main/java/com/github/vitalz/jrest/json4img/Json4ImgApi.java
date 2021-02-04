@@ -58,8 +58,9 @@ public final class Json4ImgApi {
             Image model = json2Img.getImage();
             BufferedImage bufferedImage = new ImageFactory().createImage(model.getWidth(), model.getHeight());
             model.getPixels().forEach(p -> bufferedImage.setRGB(p.getX(), p.getY(), Color.decode(p.getColor()).getRGB()));
-            File file = new File(fileStorage.getSharedDir().get(), toRelativePath);
+            File file = new File(fileStorage.getOutputDir().get(), toRelativePath);
             FileUtil.createMissingParentDirectories(file);
+            log.info("Writing an image into a file: {}", file.getAbsolutePath());
             ImageIO.write(bufferedImage, "png", file);
             return Response.ok().build();
         } catch (Throwable t) {
@@ -78,9 +79,9 @@ public final class Json4ImgApi {
     public Response imageToJson (@QueryParam("path") String path) {
         log.debug("Requested for an image file on a path: {}", path);
 
-        File file = new File(path);
+        File file = new File(fileStorage.getSharedDir().get(), path);
         if (!file.exists() || file.isDirectory()) {
-            log.info("No file on a path requested: {}", path);
+            log.info("No file on a path requested: {}", file.getAbsolutePath());
             return Response.serverError()
                     .status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Requested path is not a file.")
                     .build();
@@ -88,9 +89,11 @@ public final class Json4ImgApi {
 
         try {
 
-            BufferedImage bufferedImage = ImageIO.read(new FileInputStream(path)); // wrap into FileInputSteam to avoid OpenJDK issues
+            BufferedImage bufferedImage = ImageIO.read(new FileInputStream(file)); // wrap into FileInputSteam to avoid OpenJDK issues
             final int width = bufferedImage.getWidth();
             final int height = bufferedImage.getHeight();
+
+            int backgroundRgb = bufferedImage.getGraphics().getColor().getRGB(); // TODO: need to check if that responds background color in a proper way
 
             List<Pixel> pixels = new ArrayList(width * height);
             final Function<Integer, String>  intRgb2HexColor = new IntRgbColor2HexFunction();
@@ -102,7 +105,7 @@ public final class Json4ImgApi {
 
             return Response.ok(
                     new ObjectMapper().writeValueAsString(
-                            new Image(width, height, pixels)
+                            new Image(width, height, intRgb2HexColor.apply(backgroundRgb), pixels)
                     )
             ).build();
 

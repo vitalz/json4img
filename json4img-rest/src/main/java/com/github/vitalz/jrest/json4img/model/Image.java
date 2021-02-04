@@ -21,6 +21,13 @@ public final class Image {
         this.pixels = pixels;
     }
 
+    public Image(int width, int height, String backgroundColor, List<Pixel> pixels) {
+        this.width = width;
+        this.height = height;
+        this.backgroundColor = backgroundColor;
+        this.pixels = pixels;
+    }
+
     public int getWidth() {
         return width;
     }

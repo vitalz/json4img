@@ -9,6 +9,7 @@ public final class FileStorageFactory {
     private final Logger log = LoggerFactory.getLogger(FileStorageFactory.class);
 
     private String sharedDir;
+    private String outputDir;
 
     public String getSharedDir() {
         return sharedDir;
@@ -18,8 +19,16 @@ public final class FileStorageFactory {
         this.sharedDir = sharedDir;
     }
 
+    public String getOutputDir() {
+        return outputDir;
+    }
+
+    public void setOutputDir(String outputDir) {
+        this.outputDir = outputDir;
+    }
+
     public FileStorage createFileStorageService() {
-        log.info("Initializing file storage path variable on a path: '{}'...", this.sharedDir);
-        return new FileStorageService(() -> new File(this.sharedDir)); // do not care of current state for file system at init
+        log.info("...Initializing file storage:\n\tsharedDir: '{}'\n\toutputDir: {}", this.sharedDir, this.outputDir);
+        return new FileStorageService(() -> new File(this.sharedDir), () -> new File(this.outputDir)); // do not care of current state for file system at init
     }
 }

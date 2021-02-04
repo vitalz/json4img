@@ -20,5 +20,7 @@ services:
     - "8080:8080"
     volumes:
     - ${IMAGES_DIR}:/usr/images
+    - ${OUTPUT_DIR}:/usr/output
     environment:
-      FS_SHAREDDIR: /usr/images
+      FS_SHAREDDIR: "/usr/images"
+      FS_OUTPUTDIR: "/usr/output"

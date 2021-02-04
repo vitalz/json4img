@@ -33,7 +33,9 @@ public final class Json4ImgApplication implements Module {
                 .addConfig("classpath:com/github/vitalz/jrest/json4img/server.yml")
                 .addOption(OptionMetadata.builder("local").build())
                 .mapConfigResource("local", "classpath:com/github/vitalz/jrest/json4img/server.yml")
-                .declareVar("fs.sharedDir", "FS_SHAREDDIR");
+                .declareVar("fs.sharedDir", "FS_SHAREDDIR")
+                .declareVar("fs.outputDir", "FS_OUTPUTDIR")
+        ;
 
         JerseyModule.extend(binder)
                 .addResource(Json4ImgApi.class);
