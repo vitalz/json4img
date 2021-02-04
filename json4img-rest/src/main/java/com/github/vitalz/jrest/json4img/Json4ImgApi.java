@@ -16,10 +16,13 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.awt.image.BufferedImage;
+import java.util.function.Function;
 
 import ch.qos.logback.core.util.FileUtil;
 import com.github.vitalz.jrest.json4img.model.JsonToImage;
 import com.github.vitalz.jrest.json4img.service.file.FileStorage;
+import com.github.vitalz.jrest.json4img.service.image.ImageFactory;
+import com.github.vitalz.jrest.json4img.service.image.color.IntRgbColor2HexFunction;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +56,7 @@ public final class Json4ImgApi {
             JsonToImage json2Img = objectMapper.readValue(json, JsonToImage.class);
             String toRelativePath = json2Img.getToRelativePath();
             Image model = json2Img.getImage();
-            BufferedImage bufferedImage = new BufferedImage(model.getWidth(), model.getHeight(), BufferedImage.TYPE_INT_RGB);  // TYPE_INT_RGB for OpenJDK
+            BufferedImage bufferedImage = new ImageFactory().createImage(model.getWidth(), model.getHeight());
             model.getPixels().forEach(p -> bufferedImage.setRGB(p.getX(), p.getY(), Color.decode(p.getColor()).getRGB()));
             File file = new File(fileStorage.getSharedDir().get(), toRelativePath);
             FileUtil.createMissingParentDirectories(file);
@@ -90,9 +93,10 @@ public final class Json4ImgApi {
             final int height = bufferedImage.getHeight();
 
             List<Pixel> pixels = new ArrayList(width * height);
+            final Function<Integer, String>  intRgb2HexColor = new IntRgbColor2HexFunction();
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
-                    pixels.add(new Pixel(x, y, String.format("#%06X", (0xFFFFFF & bufferedImage.getRGB(x, y)))));
+                    pixels.add(new Pixel(x, y, intRgb2HexColor.apply(bufferedImage.getRGB(x, y))));
                 }
             }
 

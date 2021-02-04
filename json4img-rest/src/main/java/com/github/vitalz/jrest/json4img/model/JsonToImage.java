@@ -4,7 +4,6 @@ public final class JsonToImage {
     private String toRelativePath;
     private Image image;
 
-
     public JsonToImage() {
     }
 

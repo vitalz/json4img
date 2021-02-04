@@ -1,10 +1,15 @@
 package com.github.vitalz.jrest.json4img.model;
 
+import com.github.vitalz.jrest.json4img.service.image.color.IntRgbColor2HexFunction;
+
+import java.awt.Color;
 import java.util.List;
+import java.util.Optional;
 
 public final class Image {
     private int width;
     private int height;
+    private String backgroundColor;
     private List<Pixel> pixels;
 
     // default ctor for json serialization
@@ -24,6 +29,10 @@ public final class Image {
         return height;
     }
 
+    public String getBackgroundColor() {
+        return Optional.ofNullable(backgroundColor).orElse(new IntRgbColor2HexFunction().apply(Color.WHITE.getRGB()));
+    }
+
     public List<Pixel> getPixels() {
         return pixels;
     }
@@ -35,6 +44,10 @@ public final class Image {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public void setBackgroundColor(String backgroundColor) {
+        this.backgroundColor = backgroundColor;
     }
 
     public void setPixels(List<Pixel> pixels) {
