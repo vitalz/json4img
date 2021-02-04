@@ -1,7 +1,7 @@
 # Json4Img REST API
 This is simple and lightweight Java REST API application for local development (sandbox) which does simple things:
 * writes PNG image file from JSON
-* read a PNG/JPG image to JSON  
+* reads a PNG/JPG image to JSON  
 
 It is not complicated. It will follow KISS principle: keep it simple and stupid.
 
@@ -27,7 +27,7 @@ Build
 mvn clean package
 ```
 ### Run
-in Terminal export into environment variables based on project directory (as demo file storage in these steps):
+in Terminal export into environment variables IN and OUT based on project directory (as demo file storage in these steps):
 ```
 export FS_SHAREDDIR=$(pwd)
 export FS_OUTPUTDIR=$(pwd)/output
@@ -41,7 +41,7 @@ Check in browser it works:
 ```
 http://127.0.0.1:8080/json4img/api
 ```
-### Make your requests
+### Make your first requests
 GET json for an image file on `IN` relative path `/samples/sample.png`:  
 <sub><sup>will be re-design to POST soon</sup></sub>
 ```
@@ -85,6 +85,7 @@ or in detached mode
 docker-compose up -d json4img-rest
 ```
 # Preferences
+Have a look at `json4img-rest/src/main/resources/com/github/vitalz/jrest/json4img/server.yml` YML as example for you config:
 ## Jetty context and port
 Jetty prefs are under `jetty` prefix:
 ```
@@ -94,10 +95,14 @@ jetty:
     - port: 8080
 ```
 ## File storage
-File storage is in YML file under `fs` prefix (have a look at `json4img-rest/src/main/resources/com/github/vitalz/jrest/json4img/server.yml` for example):
+File storage is in YML file under `fs` prefix:
 ```
 fs:
   sharedDir: "/opt/json4img/images"
   outputDir: "/opt/json4img/output"
 ```  
 Or these options may be declared for Bootique app via environment variables by names FS_SHAREDDIR, FS_OUTPUTDIR.
+## Run with custom prefs declared in its own YML
+```
+java -Dbq.trace -jar json4img-rest/target/json4img-rest-1.0.jar --server --config=/Users/vital2e/myjson4img.yml
+```
