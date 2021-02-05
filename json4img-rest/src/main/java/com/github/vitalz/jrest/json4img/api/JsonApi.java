@@ -2,6 +2,7 @@ package com.github.vitalz.jrest.json4img.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.vitalz.jrest.json4img.model.Image;
+import com.github.vitalz.jrest.json4img.model.ImageToJson;
 import com.github.vitalz.jrest.json4img.model.Pixel;
 import com.github.vitalz.jrest.json4img.service.file.FileStorage;
 import com.github.vitalz.jrest.json4img.service.image.color.IntRgbColor2HexFunction;
@@ -11,15 +12,15 @@ import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -31,10 +32,14 @@ public class JsonApi {
     @Inject
     private FileStorage fileStorage;
 
-    @GET
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response imageToJson (@QueryParam("path") String path) {
+    public Response imageToJson(String imageToJson) throws IOException {
+
+        ImageToJson jsonParams = new ObjectMapper().readValue(imageToJson, ImageToJson.class);
+        String path = jsonParams.getPath();
+
         log.debug("Requested for an image file on a path: {}", path);
 
         File file = new File(fileStorage.getSharedDir().get(), path);
