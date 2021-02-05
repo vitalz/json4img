@@ -1,7 +1,7 @@
 FROM openjdk:8
 
-RUN apt update -y
-RUN apt install -y netcat
+RUN apt-get update -y
+RUN apt-get install -y netcat
 
 ADD target/json4img-rest-*.jar /json4img-rest.jar
 ENTRYPOINT ["java", "-jar", "/json4img-rest.jar"]
