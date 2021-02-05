@@ -29,8 +29,8 @@ mvn clean package
 ```
 ### First Run
 #### Configure file storage
-Export IN and OUT into environment variables in Terminal: do run shell script for demo example.  
-For demo run file storage will be project directory.
+Export IN and OUT into environment variables in Terminal.  
+Do run following shell script for demo run: project directory will be properly configured as file storage.
 ```shell
 source ./use-pwd-as-fs.sh
 ```
@@ -44,7 +44,7 @@ Check in browser it works:
 ```
 http://127.0.0.1:8080/json4img/api
 ```
-### Make your first requests
+### Make first requests
 GET json for an image file on demo `IN` relative path `/samples/sample.png`:  
 <sub><sup>will be re-design to POST soon</sup></sub>
 ```
@@ -88,7 +88,7 @@ or in detached mode
 docker-compose up -d json4img-rest
 ```
 # Preferences
-Have a look at `json4img-rest/src/main/resources/com/github/vitalz/jrest/json4img/server.yml` YML as example for you config.
+Have a look at `./json4img-rest/src/main/resources/com/github/vitalz/jrest/json4img/server.yml` YML as an example for custom config.
 ### Jetty context and port
 Jetty prefs are under `jetty` prefix.
 ### File storage
