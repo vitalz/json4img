@@ -42,7 +42,7 @@ java -Dbq.trace -jar json4img-rest/target/json4img-rest-1.0.jar --server --local
 ### Open browser
 Check in browser it works:
 ```
-http://127.0.0.1:8080/json4img/api
+http://127.0.0.1:8080/json4img
 ```
 ### Make first requests
 GET json for an image file on demo `IN` relative path `/samples/sample.png`:  

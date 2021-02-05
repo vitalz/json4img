@@ -1,5 +1,8 @@
 package com.github.vitalz.jrest.json4img;
 
+import com.github.vitalz.jrest.json4img.api.HelloApi;
+import com.github.vitalz.jrest.json4img.api.ImageApi;
+import com.github.vitalz.jrest.json4img.api.JsonApi;
 import com.github.vitalz.jrest.json4img.service.file.FileStorageFactory;
 import com.github.vitalz.jrest.json4img.service.file.FileStorage;
 import com.google.inject.Binder;
@@ -37,7 +40,10 @@ public final class Json4ImgApplication implements Module {
         ;
 
         JerseyModule.extend(binder)
-                .addResource(Json4ImgApi.class);
+                .addResource(HelloApi.class)
+                .addResource(JsonApi.class)
+                .addResource(ImageApi.class)
+        ;
 
     }
 
