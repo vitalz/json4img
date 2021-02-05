@@ -46,7 +46,7 @@ http://127.0.0.1:8080/json4img
 ```
 ### Make first requests
 POST to obtain json response for an image file on demo `IN` relative path `/samples/sample.png`:
-```
+```shell
 curl -X POST -v -H "Content-Type: application/json" --data "{\"path\":\"/samples/sample.png\"}" http://127.0.0.1:8080/json4img/json
 ```
 POST json for an image file (for demo it will be wrotten into `./output/example.png`):
