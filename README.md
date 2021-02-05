@@ -9,7 +9,7 @@ REST API is used for cross-platform compatibility: just run as standalone servic
 Because of that there is useful option to be supporting backend microservice (Docker container for instance) to produce and/or read image(s).
 
 ## used technologies
-This Java app runs [Bootique](https://bootique.io) framework. This framework supports Environment variables with YML config files as well.
+This Java app runs [Bootique](https://bootique.io) framework. This framework supports Environment variables and YML config files as well.
 
 ## file storage
 It is assumed there are IN and OUT:
@@ -28,9 +28,8 @@ mvn clean package
 ```
 ### Run
 in Terminal export into environment variables IN and OUT based on project directory (as demo file storage in these steps):
-```
-export FS_SHAREDDIR=$(pwd)
-export FS_OUTPUTDIR=$(pwd)/output
+```shell
+source ./use-pwd-as-fs.sh
 ```
 then run Java app:
 ```
