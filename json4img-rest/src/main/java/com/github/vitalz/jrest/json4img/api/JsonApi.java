@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-@Path("/api/json")
+@Path("/json")
 public class JsonApi {
     private static final Logger log = LoggerFactory.getLogger(JsonApi.class);
 

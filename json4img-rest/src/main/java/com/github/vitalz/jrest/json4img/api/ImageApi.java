@@ -21,7 +21,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-@Path("/api/image")
+@Path("/image")
 public class ImageApi {
     private static final Logger log = LoggerFactory.getLogger(ImageApi.class);
 
