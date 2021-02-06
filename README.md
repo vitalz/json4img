@@ -69,7 +69,7 @@ Mount volumes for file storage IN=${IMAGES_DIR} and OUT=${OUTPUT_DIR}.
 # How is to build
 ### compile & build Java code
 ```shell
-docker run build-code
+docker-compose run build-code
 ```
 ### build Docker images:
 ```shell
