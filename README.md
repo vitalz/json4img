@@ -32,7 +32,7 @@ mvn clean package
 Export IN and OUT into environment variables in Terminal.  
 Do run following shell script for demo run: project directory will be properly configured as file storage.
 ```shell
-source ./use-pwd-as-fs.sh
+source ./use-pwdfs.sh
 ```
 #### Run app
 then run Java app:
