@@ -11,7 +11,7 @@ public final class HelloApi {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String get() {
-        return "{\"message\":\"Json for Image works!\"}";
+        return "{\"message\":\"Json4Img works!\"}";
     }
 
 }
