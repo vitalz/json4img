@@ -14,6 +14,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>io.bootique.logback</groupId>
+            <artifactId>bootique-logback</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.github.vitalz.jrest.json4img</groupId>
             <artifactId>json4img-model</artifactId>
             <version>${version}</version>
