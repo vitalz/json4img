@@ -1,14 +1,22 @@
 package com.github.vitalz.jrest.json4img.cli.command;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.vitalz.jrest.json4img.model.Image;
+import com.github.vitalz.jrest.json4img.service.image.ImageFactory;
 import io.bootique.cli.Cli;
 import io.bootique.command.Command;
 import io.bootique.command.CommandOutcome;
 import io.bootique.meta.application.CommandMetadata;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.imageio.ImageIO;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 public final class MakeImageCommand implements Command {
     private final static Logger log = LoggerFactory.getLogger(MakeImageCommand.class);
@@ -26,15 +34,23 @@ public final class MakeImageCommand implements Command {
         String imageFileName = String.format("%s.png", FilenameUtils.removeExtension(fileName));
         log.debug("Making PNG image from json file '{}' to PNG file '{}'", fileName, imageFileName);
 
-        //try {
+        try {
             File imageFile = new File(imageFileName);
             imageFile.delete();
 
+            String json = FileUtils.readFileToString(new File(fileName));
+            log.debug("JSON parsed: {}", json);
 
-        /* } catch (IOException e) {
+            Image model = new ObjectMapper().readValue(json, Image.class);
+            BufferedImage bufferedImage = new ImageFactory().createImage(model.getWidth(), model.getHeight());
+            model.getPixels().forEach(p -> bufferedImage.setRGB(p.getX(), p.getY(), Color.decode(p.getColor()).getRGB()));
+
+            ImageIO.write(bufferedImage, "png", imageFile);
+
+        } catch (IOException e) {
             log.error("File exception has occurred: {}", e);
             return CommandOutcome.failed(1, e);
-        } */
+        }
 
         return CommandOutcome.succeeded();
     }
