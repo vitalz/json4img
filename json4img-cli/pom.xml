@@ -12,12 +12,32 @@
     <artifactId>json4img-cli</artifactId>
     <name>Json4Img Command Line Interface</name>
 
+    <properties>
+            <main.class>com.github.vitalz.jrest.json4img.cli.CliApplication</main.class>
+    </properties>
+
     <dependencies>
+        <dependency>
+            <groupId>io.bootique</groupId>
+            <artifactId>bootique</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.bootique.logback</groupId>
+            <artifactId>bootique-logback</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.github.vitalz.jrest.json4img</groupId>
             <artifactId>json4img-services</artifactId>
             <version>${version}</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-shade-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

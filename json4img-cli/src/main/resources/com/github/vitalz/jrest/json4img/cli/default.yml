@@ -1,0 +1,5 @@
+#  Logging
+log:
+  level: debug
+  appenders:
+    - type: console
