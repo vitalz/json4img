@@ -39,12 +39,13 @@ public final class MakeImageCommand implements Command {
             imageFile.delete();
 
             String json = FileUtils.readFileToString(new File(fileName));
-            log.debug("JSON parsed: {}", json);
+            //log.debug("JSON parsed: {}", json);
 
             Image model = new ObjectMapper().readValue(json, Image.class);
             BufferedImage bufferedImage = new ImageFactory().createImage(model.getWidth(), model.getHeight());
             model.getPixels().forEach(p -> bufferedImage.setRGB(p.getX(), p.getY(), Color.decode(p.getColor()).getRGB()));
 
+            log.debug("Saving PNG image to a file {}", imageFile.getAbsolutePath());
             ImageIO.write(bufferedImage, "png", imageFile);
 
         } catch (IOException e) {

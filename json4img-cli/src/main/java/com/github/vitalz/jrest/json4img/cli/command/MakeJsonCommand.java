@@ -35,7 +35,7 @@ public final class MakeJsonCommand implements Command {
             File jsonFile = new File(jsonFileName);
             Image imageData = new ImageDataFactory().readImage(new File(fileName));
             String json = new ObjectMapper().writeValueAsString(imageData);
-            log.debug("obtained JSON: {}", json);
+            //log.debug("obtained JSON: {}", json);
 
             jsonFile.delete();
             FileUtils.writeStringToFile(jsonFile, json);
