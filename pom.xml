@@ -11,15 +11,19 @@
 
     <groupId>org.github.vitalz.jrest.json4img</groupId>
     <artifactId>jrest-json4img-parent</artifactId>
-    <version>1.0</version>
-    <name>Java REST API Json4Img Parent</name>
+    <version>${version}</version>
+    <name>Json4Img Parent</name>
     <packaging>pom</packaging>
 
     <modules>
+        <module>json4img-model</module>
+        <module>json4img-services</module>
+        <module>json4img-cli</module>
         <module>json4img-rest</module>
     </modules>
 
     <properties>
+        <version>1.0</version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>

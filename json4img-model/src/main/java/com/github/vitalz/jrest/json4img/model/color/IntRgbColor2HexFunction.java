@@ -1,4 +1,4 @@
-package com.github.vitalz.jrest.json4img.service.image.color;
+package com.github.vitalz.jrest.json4img.model.color;
 
 import java.util.function.Function;
 

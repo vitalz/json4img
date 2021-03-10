@@ -5,7 +5,7 @@ import com.github.vitalz.jrest.json4img.model.Image;
 import com.github.vitalz.jrest.json4img.model.ImageToJson;
 import com.github.vitalz.jrest.json4img.model.Pixel;
 import com.github.vitalz.jrest.json4img.service.file.FileStorage;
-import com.github.vitalz.jrest.json4img.service.image.color.IntRgbColor2HexFunction;
+import com.github.vitalz.jrest.json4img.model.color.IntRgbColor2HexFunction;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

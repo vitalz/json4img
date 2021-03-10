@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>jrest-json4img-parent</artifactId>
+        <groupId>org.github.vitalz.jrest.json4img</groupId>
+        <version>${version}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>json4img-services</artifactId>
+    <name>Json4Img Services</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.github.vitalz.jrest.json4img</groupId>
+            <artifactId>json4img-model</artifactId>
+            <version>${version}</version>
+        </dependency>
+        <!-- 3rd party deps -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

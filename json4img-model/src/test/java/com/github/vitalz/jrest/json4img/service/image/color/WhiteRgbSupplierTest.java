@@ -1,5 +1,6 @@
 package com.github.vitalz.jrest.json4img.service.image.color;
 
+import com.github.vitalz.jrest.json4img.model.color.WhiteRgbSupplier;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 import org.junit.Test;

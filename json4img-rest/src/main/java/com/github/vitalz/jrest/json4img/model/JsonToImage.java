@@ -1,5 +1,7 @@
 package com.github.vitalz.jrest.json4img.model;
 
+import com.github.vitalz.jrest.json4img.model.Image;
+
 public final class JsonToImage {
     private String toRelativePath;
     private Image image;

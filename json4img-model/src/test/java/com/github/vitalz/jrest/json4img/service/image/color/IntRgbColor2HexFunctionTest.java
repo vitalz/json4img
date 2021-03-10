@@ -1,5 +1,6 @@
 package com.github.vitalz.jrest.json4img.service.image.color;
 
+import com.github.vitalz.jrest.json4img.model.color.IntRgbColor2HexFunction;
 import org.junit.Test;
 
 import java.awt.Color;
