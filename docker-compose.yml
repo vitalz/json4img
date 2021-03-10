@@ -11,10 +11,15 @@ services:
     - .:/usr/src
     working_dir: "/usr/src"
     command: "mvn clean package"
+  cli:
+    build:
+      context: json4img-cli
+    command: -h
+    volumes:
+    - .:/opt
   json4img-rest:
     build:
       context: json4img-rest
-    image: openjdk:8
     command: --server --local
     ports:
     - "8080:8080"
