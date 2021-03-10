@@ -39,7 +39,6 @@ public final class MakeImageCommand implements Command {
             imageFile.delete();
 
             String json = FileUtils.readFileToString(new File(fileName));
-            //log.debug("JSON parsed: {}", json);
 
             Image model = new ObjectMapper().readValue(json, Image.class);
             BufferedImage bufferedImage = new ImageFactory().createImage(model.getWidth(), model.getHeight());
