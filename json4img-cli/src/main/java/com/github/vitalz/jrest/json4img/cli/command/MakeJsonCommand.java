@@ -2,6 +2,7 @@ package com.github.vitalz.jrest.json4img.cli.command;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.vitalz.jrest.json4img.model.Image;
+import com.github.vitalz.jrest.json4img.service.file.ConvertedFileName;
 import com.github.vitalz.jrest.json4img.service.image.dto.json.ImageDataFactory;
 import io.bootique.cli.Cli;
 import io.bootique.command.Command;
@@ -28,7 +29,7 @@ public final class MakeJsonCommand implements Command {
         log.debug("Current directory is assumed to be: '{}'", new File("").getAbsolutePath().trim());
 
         String fileName = cli.standaloneArguments().get(0);
-        String jsonFileName = String.format("%s.json", FilenameUtils.removeExtension(fileName));
+        String jsonFileName = new ConvertedFileName().apply(fileName, "json");
         log.debug("Making json from image file '{}' to json file '{}'", fileName, jsonFileName);
 
         try {

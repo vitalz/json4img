@@ -2,6 +2,7 @@ package com.github.vitalz.jrest.json4img.cli.command;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.vitalz.jrest.json4img.model.Image;
+import com.github.vitalz.jrest.json4img.service.file.ConvertedFileName;
 import com.github.vitalz.jrest.json4img.service.image.ImageFactory;
 import io.bootique.cli.Cli;
 import io.bootique.command.Command;
@@ -31,7 +32,7 @@ public final class MakeImageCommand implements Command {
         log.debug("Current directory is assumed to be: '{}'", new File("").getAbsolutePath().trim());
 
         String fileName = cli.standaloneArguments().get(0);
-        String imageFileName = String.format("%s.png", FilenameUtils.removeExtension(fileName));
+        String imageFileName = new ConvertedFileName().apply(fileName, "png");
         log.debug("Making PNG image from json file '{}' to PNG file '{}'", fileName, imageFileName);
 
         try {
