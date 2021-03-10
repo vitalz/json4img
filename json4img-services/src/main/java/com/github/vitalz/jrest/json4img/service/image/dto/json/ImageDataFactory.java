@@ -1,4 +1,4 @@
-package com.github.vitalz.jrest.json4img.service.json;
+package com.github.vitalz.jrest.json4img.service.image.dto.json;
 
 import com.github.vitalz.jrest.json4img.model.Image;
 import com.github.vitalz.jrest.json4img.model.Pixel;

@@ -2,7 +2,7 @@ package com.github.vitalz.jrest.json4img.cli.command;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.vitalz.jrest.json4img.model.Image;
-import com.github.vitalz.jrest.json4img.service.json.ImageDataFactory;
+import com.github.vitalz.jrest.json4img.service.image.dto.json.ImageDataFactory;
 import io.bootique.cli.Cli;
 import io.bootique.command.Command;
 import io.bootique.command.CommandOutcome;
@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.function.Supplier;
 
 public final class MakeJsonCommand implements Command {
     private final static Logger log = LoggerFactory.getLogger(MakeJsonCommand.class);
@@ -32,8 +31,8 @@ public final class MakeJsonCommand implements Command {
         String jsonFileName = String.format("%s.json", FilenameUtils.removeExtension(fileName));
         log.debug("Making json from image file '{}' to json file '{}'", fileName, jsonFileName);
 
-        File jsonFile = new File(jsonFileName);
         try {
+            File jsonFile = new File(jsonFileName);
             Image imageData = new ImageDataFactory().readImage(new File(fileName));
             String json = new ObjectMapper().writeValueAsString(imageData);
             log.debug("obtained JSON: {}", json);
