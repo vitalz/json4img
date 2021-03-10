@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.function.Function;
 
 @Path("/json")
-public class JsonApi {
+public final class JsonApi {
     private static final Logger log = LoggerFactory.getLogger(JsonApi.class);
 
     @Inject

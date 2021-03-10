@@ -21,6 +21,7 @@ public final class Json4ImgApplication implements Module {
     private final static Logger log = LoggerFactory.getLogger(Json4ImgApplication.class);
 
     public static void main(String[] args) {
+        log.debug("Running main...");
         Bootique.app(args)
                 .autoLoadModules()
                 .module(Json4ImgApplication.class)
@@ -30,6 +31,7 @@ public final class Json4ImgApplication implements Module {
 
     @Override
     public void configure(Binder binder) {
+        log.debug("Configuring...");
 
         BQCoreModule.extend(binder)
                 .addConfig("classpath:com/github/vitalz/jrest/json4img/server.yml")
@@ -50,6 +52,7 @@ public final class Json4ImgApplication implements Module {
     @Singleton
     @Provides
     public FileStorage provideSharedDirService(ConfigurationFactory configFactory) {
+        log.debug("Providing file storage service...");
         return configFactory.config(FileStorageFactory.class, "fs").createFileStorageService();
     }
 }

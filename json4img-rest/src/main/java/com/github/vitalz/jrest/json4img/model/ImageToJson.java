@@ -1,6 +1,6 @@
 package com.github.vitalz.jrest.json4img.model;
 
-public class ImageToJson {
+public final class ImageToJson {
     private String path;
 
     public ImageToJson() {

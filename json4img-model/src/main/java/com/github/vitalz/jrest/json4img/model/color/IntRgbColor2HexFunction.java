@@ -2,7 +2,7 @@ package com.github.vitalz.jrest.json4img.model.color;
 
 import java.util.function.Function;
 
-public class IntRgbColor2HexFunction implements Function<Integer, String> {
+public final class IntRgbColor2HexFunction implements Function<Integer, String> {
 
     @Override
     public String apply(Integer intRgbColor) {

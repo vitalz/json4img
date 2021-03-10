@@ -5,7 +5,7 @@ import org.apache.commons.lang3.tuple.Triple;
 
 import java.util.function.Supplier;
 
-public class WhiteRgbSupplier implements Supplier<Triple<Integer, Integer, Integer>> {
+public final class WhiteRgbSupplier implements Supplier<Triple<Integer, Integer, Integer>> {
 
     @Override
     public Triple<Integer, Integer, Integer> get() {
