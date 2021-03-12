@@ -4,6 +4,7 @@ import com.github.vitalz.jrest.json4img.model.Image;
 import com.github.vitalz.jrest.json4img.model.Pixel;
 import com.github.vitalz.jrest.json4img.model.color.IntRgbColor2HexFunction;
 
+import com.github.vitalz.jrest.json4img.model.color.factory.CacheableHexColorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,15 +27,16 @@ public final class ImageDataFactory {
         final int height = bufferedImage.getHeight();
 
         final Function<Integer, String> intRgb2HexColor = new IntRgbColor2HexFunction();
+        final CacheableHexColorFactory hexColors = new CacheableHexColorFactory();
 
         final int backgroundRgb = bufferedImage.getGraphics().getColor().getRGB(); // TODO: need to check if that responds background color in a proper way
-        log.info("Java AWT recognizes background color: {}", intRgb2HexColor.apply(backgroundRgb));
+        log.info("Java AWT has recognized background color: {}\nFYI: #FFFFFF is photo background.", intRgb2HexColor.apply(backgroundRgb));
 
         List<Pixel> pixels = new ArrayList(width * height);
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                String hexColor = intRgb2HexColor.apply(bufferedImage.getRGB(x, y));
+                String hexColor = hexColors.hexColor(bufferedImage.getRGB(x, y));
                 if (!"#000000".equals(hexColor)) {
                     pixels.add(new Pixel(x, y, hexColor));
                 }

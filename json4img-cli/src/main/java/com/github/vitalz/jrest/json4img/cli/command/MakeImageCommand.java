@@ -23,7 +23,7 @@ public final class MakeImageCommand implements Command {
 
     @Override
     public CommandMetadata getMetadata() {
-        return CommandMetadata.builder("make-image").shortName('i').build();
+        return CommandMetadata.builder("mkimg").shortName('i').build();
     }
 
     @Override

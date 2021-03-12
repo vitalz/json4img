@@ -21,7 +21,7 @@ public final class MakeJsonCommand implements Command {
 
     @Override
     public CommandMetadata getMetadata() {
-        return CommandMetadata.builder("make-json").shortName('j').build();
+        return CommandMetadata.builder("mkjson").shortName('j').build();
     }
 
     @Override
