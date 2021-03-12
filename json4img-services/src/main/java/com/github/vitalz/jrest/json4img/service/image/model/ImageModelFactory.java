@@ -25,25 +25,28 @@ public final class ImageModelFactory {
         BufferedImage bufferedImage = ImageIO.read(new FileInputStream(imageFile)); // wrap into FileInputSteam to avoid OpenJDK issues
         final int width = bufferedImage.getWidth();
         final int height = bufferedImage.getHeight();
+        log.info("Image size detected is: {} x {}. That means there are {} pixels.", height, width, String.format("%,d", height * width));
 
         final Function<Integer, String> intRgb2HexColor = new IntRgbColor2HexFunction();
         final CacheableHexColorFactory hexColors = new CacheableHexColorFactory();
 
         final int backgroundRgb = bufferedImage.getGraphics().getColor().getRGB(); // TODO: need to check if that responds background color in a proper way
-        log.info("Java AWT has recognized background color: {}\nFYI: #FFFFFF is photo background.", intRgb2HexColor.apply(backgroundRgb));
+        final String hexBackground = intRgb2HexColor.apply(backgroundRgb);
+        log.info("Java AWT has recognized background color: {}.", hexBackground);
 
         List<Pixel> pixels = new ArrayList(width * height);
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 String hexColor = hexColors.hexColor(bufferedImage.getRGB(x, y));
-                if (!"#000000".equals(hexColor)) {
+                if (!hexBackground.equals(hexColor)) {
                     pixels.add(new Pixel(x, y, hexColor));
                 }
             }
         }
+        log.info("There are {} colors have been detected.", String.format("%,d",hexColors.cacheSize()));
 
-        return new Image(width, height, intRgb2HexColor.apply(backgroundRgb), pixels);
+        return new Image(width, height, hexBackground, pixels);
 
     }
 

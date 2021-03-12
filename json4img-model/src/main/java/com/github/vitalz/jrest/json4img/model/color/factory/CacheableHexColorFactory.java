@@ -13,4 +13,9 @@ public class CacheableHexColorFactory {
     public String hexColor(int color) {
         return colors.computeIfAbsent(color, k -> intRgb2HexColor.apply(color));
     }
+
+    public int cacheSize() {
+        return colors.size();
+    }
+
 }

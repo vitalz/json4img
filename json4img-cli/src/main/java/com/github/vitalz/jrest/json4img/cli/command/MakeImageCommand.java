@@ -41,7 +41,9 @@ public final class MakeImageCommand implements Command {
             String json = FileUtils.readFileToString(new File(fileName));
 
             Image model = new ObjectMapper().readValue(json, Image.class);
-            BufferedImage bufferedImage = new ImageFactory().createImage(model.getWidth(), model.getHeight());
+            log.info("Image size detected is {} x {}. And there are {} unique pixels declared on json.", model.getWidth(), model.getHeight(), String.format("%,d", model.getPixels().size()));
+
+            BufferedImage bufferedImage = new ImageFactory().createImage(model.getWidth(), model.getHeight(), Color.decode(model.getBackgroundColor()));
             model.getPixels().forEach(p -> bufferedImage.setRGB(p.getX(), p.getY(), Color.decode(p.getColor()).getRGB()));
 
             log.debug("Saving PNG image to a file {}", imageFile.getAbsolutePath());

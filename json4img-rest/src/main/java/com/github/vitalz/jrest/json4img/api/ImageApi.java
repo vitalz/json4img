@@ -37,7 +37,7 @@ public final class ImageApi {
             JsonToImage json2Img = objectMapper.readValue(json, JsonToImage.class);
             String toRelativePath = json2Img.getToRelativePath();
             Image model = json2Img.getImage();
-            BufferedImage bufferedImage = new ImageFactory().createImage(model.getWidth(), model.getHeight());
+            BufferedImage bufferedImage = new ImageFactory().createImage(model.getWidth(), model.getHeight(), Color.decode(model.getBackgroundColor()));
             model.getPixels().forEach(p -> bufferedImage.setRGB(p.getX(), p.getY(), Color.decode(p.getColor()).getRGB()));
             File file = new File(fileStorage.getOutputDir().get(), toRelativePath);
             FileUtil.createMissingParentDirectories(file);

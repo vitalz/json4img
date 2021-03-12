@@ -19,6 +19,7 @@ public class CacheableHexColorFactoryTest {
 
         assertEquals(true, hex1.equals("#778899"));
         assertEquals(true, hex1 == colors.hexColor(color));
+        assertEquals(1, colors.cacheSize());
     }
 
 }
