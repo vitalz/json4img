@@ -1,4 +1,4 @@
-package com.github.vitalz.jrest.json4img.service.image.dto.json;
+package com.github.vitalz.jrest.json4img.service.image.model;
 
 import com.github.vitalz.jrest.json4img.model.Image;
 import com.github.vitalz.jrest.json4img.model.Pixel;
@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-public final class ImageDataFactory {
-    public static final Logger log = LoggerFactory.getLogger(ImageDataFactory.class);
+public final class ImageModelFactory {
+    public static final Logger log = LoggerFactory.getLogger(ImageModelFactory.class);
 
     public Image readImage(File imageFile) throws IOException {
 

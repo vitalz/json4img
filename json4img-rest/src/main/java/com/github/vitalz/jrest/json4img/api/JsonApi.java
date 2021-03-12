@@ -3,8 +3,7 @@ package com.github.vitalz.jrest.json4img.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.vitalz.jrest.json4img.model.ImageToJson;
 import com.github.vitalz.jrest.json4img.service.file.FileStorage;
-import com.github.vitalz.jrest.json4img.service.image.ImageFactory;
-import com.github.vitalz.jrest.json4img.service.image.dto.json.ImageDataFactory;
+import com.github.vitalz.jrest.json4img.service.image.model.ImageModelFactory;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +44,7 @@ public final class JsonApi {
 
         try {
             return Response.ok(
-                    new ObjectMapper().writeValueAsString(new ImageDataFactory().readImage(file))
+                    new ObjectMapper().writeValueAsString(new ImageModelFactory().readImage(file))
             ).build();
 
         } catch (Throwable t) {

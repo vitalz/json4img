@@ -3,13 +3,12 @@ package com.github.vitalz.jrest.json4img.cli.command;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.vitalz.jrest.json4img.model.Image;
 import com.github.vitalz.jrest.json4img.service.file.ConvertedFileName;
-import com.github.vitalz.jrest.json4img.service.image.dto.json.ImageDataFactory;
+import com.github.vitalz.jrest.json4img.service.image.model.ImageModelFactory;
 import io.bootique.cli.Cli;
 import io.bootique.command.Command;
 import io.bootique.command.CommandOutcome;
 import io.bootique.meta.application.CommandMetadata;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +33,7 @@ public final class MakeJsonCommand implements Command {
 
         try {
             File jsonFile = new File(jsonFileName);
-            Image imageData = new ImageDataFactory().readImage(new File(fileName));
+            Image imageData = new ImageModelFactory().readImage(new File(fileName));
             String json = new ObjectMapper().writeValueAsString(imageData);
 
             jsonFile.delete();
