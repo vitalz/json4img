@@ -9,7 +9,6 @@ import io.bootique.command.Command;
 import io.bootique.command.CommandOutcome;
 import io.bootique.meta.application.CommandMetadata;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
