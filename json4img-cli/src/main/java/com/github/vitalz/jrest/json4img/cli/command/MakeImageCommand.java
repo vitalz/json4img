@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.vitalz.jrest.json4img.model.Image;
 import com.github.vitalz.jrest.json4img.service.file.ConvertedFileName;
 import com.github.vitalz.jrest.json4img.service.image.ImageFactory;
+import com.github.vitalz.jrest.json4img.service.image.PixelPredicate;
 import io.bootique.cli.Cli;
 import io.bootique.command.Command;
 import io.bootique.command.CommandOutcome;
@@ -44,7 +45,10 @@ public final class MakeImageCommand implements Command {
             log.info("Image size detected is {} x {}. And there are {} unique pixels declared on json.", model.getWidth(), model.getHeight(), String.format("%,d", model.getPixels().size()));
 
             BufferedImage bufferedImage = new ImageFactory().createImage(model.getWidth(), model.getHeight(), Color.decode(model.getBackgroundColor()));
-            model.getPixels().forEach(p -> bufferedImage.setRGB(p.getX(), p.getY(), Color.decode(p.getColor()).getRGB()));
+            model.getPixels()
+                    .stream()
+                    .filter(new PixelPredicate(model.getWidth(), model.getHeight()))
+                    .forEach(p -> bufferedImage.setRGB(p.getX(), p.getY(), Color.decode(p.getColor()).getRGB()));
 
             log.debug("Saving PNG image to a file {}", imageFile.getAbsolutePath());
             ImageIO.write(bufferedImage, "png", imageFile);

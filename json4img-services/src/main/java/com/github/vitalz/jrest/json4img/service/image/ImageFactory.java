@@ -1,8 +1,5 @@
 package com.github.vitalz.jrest.json4img.service.image;
 
-import com.github.vitalz.jrest.json4img.model.color.WhiteRgbSupplier;
-import org.apache.commons.lang3.tuple.Triple;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;

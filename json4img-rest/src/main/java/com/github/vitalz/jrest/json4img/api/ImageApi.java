@@ -6,6 +6,7 @@ import com.github.vitalz.jrest.json4img.model.Image;
 import com.github.vitalz.jrest.json4img.model.JsonToImage;
 import com.github.vitalz.jrest.json4img.service.file.FileStorage;
 import com.github.vitalz.jrest.json4img.service.image.ImageFactory;
+import com.github.vitalz.jrest.json4img.service.image.PixelPredicate;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,10 @@ public final class ImageApi {
             String toRelativePath = json2Img.getToRelativePath();
             Image model = json2Img.getImage();
             BufferedImage bufferedImage = new ImageFactory().createImage(model.getWidth(), model.getHeight(), Color.decode(model.getBackgroundColor()));
-            model.getPixels().forEach(p -> bufferedImage.setRGB(p.getX(), p.getY(), Color.decode(p.getColor()).getRGB()));
+            model.getPixels()
+                    .stream()
+                    .filter(new PixelPredicate(model.getWidth(), model.getHeight()))
+                    .forEach(p -> bufferedImage.setRGB(p.getX(), p.getY(), Color.decode(p.getColor()).getRGB()));
             File file = new File(fileStorage.getOutputDir().get(), toRelativePath);
             FileUtil.createMissingParentDirectories(file);
             log.info("Writing an image into a file: {}", file.getAbsolutePath());
