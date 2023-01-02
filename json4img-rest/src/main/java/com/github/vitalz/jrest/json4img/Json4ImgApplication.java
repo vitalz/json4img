@@ -5,6 +5,8 @@ import com.github.vitalz.jrest.json4img.api.ImageApi;
 import com.github.vitalz.jrest.json4img.api.JsonApi;
 import com.github.vitalz.jrest.json4img.service.file.FileStorageFactory;
 import com.github.vitalz.jrest.json4img.service.file.FileStorage;
+import com.github.vitalz.jrest.json4img.service.view.IWindowService;
+import com.github.vitalz.jrest.json4img.service.view.WindowService;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Provides;
@@ -40,6 +42,8 @@ public final class Json4ImgApplication implements Module {
                 .declareVar("fs.sharedDir", "FS_SHAREDDIR") // declare env var name for Bootique framework
                 .declareVar("fs.outputDir", "FS_OUTPUTDIR") // declare env var name for Bootique framework
         ;
+
+        binder.bind(IWindowService.class).to(WindowService.class).in(Singleton.class);
 
         JerseyModule.extend(binder)
                 .addResource(HelloApi.class)

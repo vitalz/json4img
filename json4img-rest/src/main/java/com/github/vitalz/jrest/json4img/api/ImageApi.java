@@ -7,7 +7,9 @@ import com.github.vitalz.jrest.json4img.model.JsonToImage;
 import com.github.vitalz.jrest.json4img.service.file.FileStorage;
 import com.github.vitalz.jrest.json4img.service.image.ImageFactory;
 import com.github.vitalz.jrest.json4img.service.image.InImagePixels;
+import com.github.vitalz.jrest.json4img.service.view.IWindowService;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +30,9 @@ public final class ImageApi {
 
     @Inject
     private FileStorage fileStorage;
+
+    @Inject
+    private Provider<IWindowService> windowService;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -54,4 +59,26 @@ public final class ImageApi {
         }
 
     }
+
+    @POST
+    @Path("display")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response display(String json) {
+        try {
+            JsonToImage json2Img = new ObjectMapper().readValue(json, JsonToImage.class);
+            Image model = json2Img.getImage();
+            BufferedImage bufferedImage = new ImageFactory().createImage(model.getWidth(), model.getHeight(), Color.decode(model.getBackgroundColor()));
+            new InImagePixels(model).pixels()
+                                    .forEach(p -> bufferedImage.setRGB(p.getX(), p.getY(), Color.decode(p.getColor()).getRGB()));
+            windowService.get().display(bufferedImage);
+            return Response.ok().build();
+        } catch (Throwable t) {
+            log.error("Server error has occurred.", t);
+            return Response.serverError()
+                    .status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), t.getLocalizedMessage())
+                    .build();
+        }
+    }
+
 }
