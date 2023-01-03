@@ -3,14 +3,14 @@ Some modern languages still don't have (cross-platform) graphics even for simple
 This is a simple and lightweight **REST API** application on **Java 8** for local development (sandbox) which does simple things:
 * writes a **PNG** image file from **<** a **JSON**
 * reads a **PNG/JPG** image to **>** a **JSON**
-* **display a PNG** image in a JFrame from **<** a **@POST**'ed **JSON** via REST API
-* <s>**display a PNG** image in a JFrame from **<** a **JSON** file</s>
+* **display an image** in a JFrame from **<** a **@POST**'ed **JSON** via REST API
+* <s>**open an image** in a JFrame from **<** a **JSON** file</s>
 
 It is not complex. It follows KISS principle: keep it simple and stupid.  
 <small>*Note:* a CSV file may be easily converted to a JSON file (in many ways by many tools).</small>
 
-REST API is used for cross-platform compatibility: just run as a standalone service on a host and a port defined (by default: `localhost` and `8080`).  
-Because of that there is a useful option to be a supporting backend microservice (a Docker container for instance) to produce and/or read image(s).
+REST API is used for cross-platform compatibility: just run as a standalone service on a host and a port defined (by default: `localhost:8080`).  
+There is a useful option either to be a supporting backend microservice (a Docker container for instance) to produce and/or read image(s).
 
 ## Used technologies
 This Java app runs [Bootique](https://bootique.io) framework. It is lightweight and this framework supports Environment variables and YAML config out of the box.
