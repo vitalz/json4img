@@ -39,14 +39,12 @@ public final class ImageApi {
     @Produces(MediaType.TEXT_PLAIN)
     public Response jsonToImage(String json) {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonToImage json2Img = objectMapper.readValue(json, JsonToImage.class);
-            String toRelativePath = json2Img.getToRelativePath();
+            JsonToImage json2Img = new ObjectMapper().readValue(json, JsonToImage.class);
             Image model = json2Img.getImage();
             BufferedImage bufferedImage = new ImageFactory().createImage(model.getWidth(), model.getHeight(), Color.decode(model.getBackgroundColor()));
             new InImagePixels(model).pixels()
                                     .forEach(p -> bufferedImage.setRGB(p.getX(), p.getY(), Color.decode(p.getColor()).getRGB()));
-            File file = new File(fileStorage.getOutputDir().get(), toRelativePath);
+            File file = new File(fileStorage.getOutputDir().get(), json2Img.getToRelativePath());
             FileUtil.createMissingParentDirectories(file);
             log.info("Writing an image into a file: {}", file.getAbsolutePath());
             ImageIO.write(bufferedImage, "png", file);
