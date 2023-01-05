@@ -15,14 +15,19 @@ import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Random;
+import java.util.function.Supplier;
 
 @Path("/image")
 public final class ImageApi {
@@ -70,6 +75,40 @@ public final class ImageApi {
             new InImagePixels(model).pixels()
                                     .forEach(p -> bufferedImage.setRGB(p.getX(), p.getY(), Color.decode(p.getColor()).getRGB()));
             windowService.get().display(bufferedImage);
+            return Response.ok().build();
+        } catch (Throwable t) {
+            log.error("Server error has occurred.", t);
+            return Response.serverError()
+                    .status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), t.getLocalizedMessage())
+                    .build();
+        }
+    }
+
+    @GET
+    @Path("display/test")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response displayTestDemo() {
+        try {
+            Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
+            int width = (int) screenDimension.getWidth();
+            int height = (int) screenDimension.getHeight();
+            BufferedImage bufferedImage = new ImageFactory().createImage(width, height, Color.WHITE);
+
+            Random random = new Random();
+            Supplier<Integer> getRandomRgb = () -> random.nextInt(255 + 1);
+            Supplier<Boolean> getIsToFill = () -> random.nextInt(100 + 1) < 20;
+
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    if (getIsToFill.get()) {
+                        bufferedImage.setRGB(x, y, new Color(getRandomRgb.get(), getRandomRgb.get(), getRandomRgb.get()).getRGB());
+                    }
+                }
+            }
+
+            windowService.get().display(bufferedImage);
+
             return Response.ok().build();
         } catch (Throwable t) {
             log.error("Server error has occurred.", t);
