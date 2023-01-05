@@ -7,6 +7,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.WindowConstants;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -52,17 +54,21 @@ public class WindowService implements IWindowService {
         frame.setSize(frameDimension);
         log.debug("When the image size is [{} x {}].", image.getWidth(), image.getHeight());
 
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(new JLabel(new ImageIcon(image), JLabel.CENTER));
+        JPanel imgJPanel = new JPanel();
+        imgJPanel.setLayout(new BorderLayout());
+        imgJPanel.add(new JLabel(new ImageIcon(image)), BorderLayout.CENTER);
 
-        frame.getContentPane().add(panel);
+        JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setViewportView(imgJPanel);
+
+        frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
         frame.getContentPane().revalidate();
         frame.getContentPane().repaint();
+
         log.debug("JFrame '{}' has been repainted", frame.getTitle());
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-
 
 }
